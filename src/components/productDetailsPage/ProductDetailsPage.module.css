@@ -1,0 +1,160 @@
+.productContainer {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 2rem;
+
+  display: flex;
+  gap: 2.5rem;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+}
+
+.leftContainer {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  border-radius: 20px;
+  padding: 1.5rem;
+
+}
+
+.productImage {
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+
+  object-fit: contain;
+
+  border-radius: 16px;
+}
+
+.rightContainer {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.productName {
+  color: white;
+
+  font-size: 2.2rem;
+  font-weight: 700;
+
+  margin-bottom: 1rem;
+}
+
+.category {
+  color: #f7e88b;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  margin-bottom: 1rem;
+}
+
+.price {
+  color: white;
+
+  font-size: 2rem;
+  font-weight: 700;
+
+  margin-bottom: 1rem;
+}
+
+.rating {
+  color: white;
+
+  font-size: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.rating span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.description {
+  color: rgba(255, 255, 255, 0.8);
+
+  line-height: 1.8;
+  font-size: 1.2rem;
+
+  margin-bottom: 2rem;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+
+  margin-top: auto;
+}
+
+.cartBtn,
+.buyBtn {
+  flex: 1;
+
+  border: none;
+  border-radius: 14px;
+
+  padding: 1rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.cartBtn {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.cartBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.buyBtn {
+  background: #f7e88b;
+  color: #222;
+}
+
+.buyBtn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(247, 232, 139, 0.35);
+}
+
+@media (max-width: 900px) {
+  .productContainer {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .productImage {
+    height: 350px;
+  }
+
+  .rightContainer h2 {
+    font-size: 1.8rem;
+  }
+
+  .btnContainer {
+    flex-direction: column;
+  }
+}
