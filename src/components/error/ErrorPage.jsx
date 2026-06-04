@@ -10,7 +10,7 @@ function ErrorPage({ title, message }) {
       <div className={styles.errorContainer}>
         <div className={styles.icon}>⚠️</div>
         <h2>{title}</h2>
-        <p className={styles.errorMsg}>{message}</p>
+        <p className={styles.errorMsg}>{errorMessage}</p>
         <p>Try Again later</p>
       </div>
     </>
