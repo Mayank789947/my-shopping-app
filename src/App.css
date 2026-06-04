@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 20%,
+      rgba(255, 255, 255, 0.12),
+      transparent 25%),
+    radial-gradient(circle at 80% 15%,
+      rgba(173, 181, 255, 0.18),
+      transparent 30%),
+    radial-gradient(circle at 70% 80%,
+      rgba(255, 255, 255, 0.08),
+      transparent 30%),
+    linear-gradient(135deg,
+      #9297bd 0%,
+      #7b80a0 40%,
+      #666b8d 75%,
+      #555a76 100%);
+
+  min-height: 100vh;
+}
