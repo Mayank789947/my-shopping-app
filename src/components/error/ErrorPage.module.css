@@ -1,0 +1,62 @@
+.errorContainer {
+  max-width: 500px;
+  margin: 5rem auto;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(247, 232, 139, 0.12);
+}
+
+.icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.errorContainer h2 {
+  color: #f7e88b;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  margin: 0;
+}
+
+.errorContainer p:first-child {
+  color: #f7e88b;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  margin: 0;
+}
+
+.errorMsg {
+  color: white;
+
+  font-size: 1rem;
+  line-height: 1.7;
+
+  margin: 0;
+}
+
+.errorContainer p:last-child {
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.95rem;
+
+  margin: 0;
+}
