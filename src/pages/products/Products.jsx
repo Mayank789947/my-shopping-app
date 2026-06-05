@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import styles from "./Products.module.css"
-import Card from "../card/Card"
+import Card from "../../components/card/Card"
 import { useNavigate } from "react-router-dom"
-import Loading from "../loading/Loading"
-import ErrorPage from "../error/ErrorPage"
+import Loading from "../../components/loading/Loading"
+import ErrorPage from "../../components/error/ErrorPage"
 
 function Products() {
     const [data, setData] = useState(null)

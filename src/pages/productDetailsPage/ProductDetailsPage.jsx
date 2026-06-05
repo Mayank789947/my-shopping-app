@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import styles from "/src/components/productDetailsPage/ProductDetailsPage.module.css"
 import { useEffect, useState } from "react"
-import Loading from "../loading/Loading"
-import ErrorPage from "../error/ErrorPage"
+import Loading from "../../components/loading/Loading"
+import ErrorPage from "../../components/error/ErrorPage"
 
 function ProductDetailsPage() {
 
