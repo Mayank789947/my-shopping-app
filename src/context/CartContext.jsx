@@ -43,8 +43,12 @@ function CartProvider({ children }) {
         });
     }
 
+    function removeFromCart(id) {
+        setCart((prevCart) => prevCart.filter(item => item.id !== id))
+    }
+
     return (
-        <CartContext.Provider value={{ cart, addToCart }}>
+        <CartContext.Provider value={{ cart, addToCart, decrementQuantity, removeFromCart }}>
             {children}
         </CartContext.Provider>
     )
