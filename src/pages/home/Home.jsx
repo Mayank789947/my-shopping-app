@@ -1,9 +1,17 @@
 import styles from "./Home.module.css";
 import Header from "/src/components/header/Header.jsx"
 import shopImage from "/src/assets/shopImage.webp"; // transparent image
+import { useNavigate } from "react-router-dom";
 
 
 function Home() {
+
+    const navigate = useNavigate()
+
+    function handleCTABtn() {
+      navigate(`/products`)
+    }
+
     return (
         <>
             <Header />
@@ -25,7 +33,10 @@ function Home() {
                         at prices that make sense.
                     </p>
 
-                    <button className={styles.ctaBtn}>
+                    <button 
+                        className={styles.ctaBtn}
+                        onClick={handleCTABtn}
+                    >
                         Explore Now →
                     </button>
 
