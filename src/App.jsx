@@ -4,6 +4,7 @@ import Card from './components/card/Card'
 import Home from '/src/pages/home/Home.jsx'
 import ProductDetailsPage from '/src/pages/productDetailsPage/ProductDetailsPage.jsx'
 import Products from '/src/pages/products/Products.jsx'
+import CartPage from './pages/cartPage/CartPage'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     path: "products/:id",
     element: <ProductDetailsPage />
   },
+  {
+    path: "cartpage",
+    element: <CartPage />,
+  }
 ])
 
 function App() {
