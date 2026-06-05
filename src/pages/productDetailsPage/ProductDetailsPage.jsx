@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import Loading from "../../components/loading/Loading"
 import ErrorPage from "../../components/error/ErrorPage"
 import { CartContext } from "../../context/CartContext"
+import Header from "../../components/header/Header"
 
 function ProductDetailsPage() {
 
@@ -53,6 +54,7 @@ function ProductDetailsPage() {
 
     return (
         <>
+            <Header />
             <div className={styles.productContainer}>
                 <div className={styles.leftContainer}>
                     <img className={styles.productImage} src={product.image} alt={product.title} />
