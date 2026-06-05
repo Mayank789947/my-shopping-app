@@ -28,3 +28,50 @@
     border: none;
     padding: 0.4rem 0.8rem;
 }
+
+.cartContainer {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.cartIcon {
+  font-size: 1.8rem;
+
+  transition: transform 0.25s ease;
+}
+
+.cartContainer:hover .cartIcon {
+  transform: scale(1.08);
+}
+
+.cartBadge {
+  position: absolute;
+
+  top: -10px;
+  right: -12px;
+
+  min-width: 22px;
+  height: 22px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 6px;
+
+  border-radius: 50%;
+
+  background: #f7e88b;
+  color: #222;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  box-shadow:
+    0 4px 12px rgba(247, 232, 139, 0.35);
+}
