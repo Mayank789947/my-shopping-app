@@ -5,10 +5,6 @@ const CartContext = createContext()
 function CartProvider({ children }) {
     const [cart, setCart] = useState([])
 
-    useEffect(() => {
-        console.log("CartProvider mounted");
-    }, []);
-
     function addToCart(product) {
         console.log("Added to cart successfully", product)
 

@@ -1,12 +1,16 @@
 import { useParams } from "react-router-dom"
-import styles from "/src/components/productDetailsPage/ProductDetailsPage.module.css"
-import { useEffect, useState } from "react"
+import styles from "/src/pages/productDetailsPage/ProductDetailsPage.module.css"
+import { useContext, useEffect, useState } from "react"
 import Loading from "../../components/loading/Loading"
 import ErrorPage from "../../components/error/ErrorPage"
+import { CartContext } from "../../context/CartContext"
 
 function ProductDetailsPage() {
 
     const { id } = useParams()
+    const { cart, addToCart } = useContext(CartContext)
+
+    console.log(cart)
 
     const [product, setProduct] = useState({})
     const [error, setError] = useState(null)
@@ -69,7 +73,12 @@ function ProductDetailsPage() {
                     </p>
 
                     <div className={styles.btnContainer}>
-                        <button className={styles.cartBtn}>Add To Cart</button>
+                        <button
+                            className={styles.cartBtn}
+                            onClick={() => addToCart(product)}
+                        >
+                            Add To Cart
+                        </button>
                         <button className={styles.buyBtn}>Buy Now</button>
                     </div>
                 </div>

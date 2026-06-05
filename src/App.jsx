@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Card from './components/card/Card'
-import Home from './components/home/Home'
-import ProductDetailsPage from './components/productDetailsPage/ProductDetailsPage'
-import Products from './components/products/Products'
+import Home from '/src/pages/home/Home.jsx'
+import ProductDetailsPage from '/src/pages/productDetailsPage/ProductDetailsPage.jsx'
+import Products from '/src/pages/products/Products.jsx'
 
 const router = createBrowserRouter([
   {
