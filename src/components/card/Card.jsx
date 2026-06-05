@@ -1,6 +1,10 @@
+import { useContext } from "react"
 import styles from "./Card.module.css"
+import { CartContext } from "../../context/CartContext"
 
 function Card({ product, onClick }) {
+
+    const { addToCart } = useContext(CartContext)
 
     return (
         <>
@@ -45,7 +49,10 @@ function Card({ product, onClick }) {
                         View
                     </button>
 
-                    <button className={styles.cartBtn}>
+                    <button 
+                       className={styles.cartBtn}
+                       onClick={() => addToCart(product)}
+                    >
                         Add To Cart
                     </button>
                 </div>
