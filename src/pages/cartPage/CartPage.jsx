@@ -52,13 +52,13 @@ function CartPage() {
 
               <div className={styles.summaryRow}>
                 <span>Total Items</span>
-                <span>{totalItems}</span>
+                <span data-testid="total-items">{totalItems}</span>
               </div>
 
               <div className={styles.summaryRow}>
                 <span>Total Price</span>
 
-                <span className={styles.totalPrice}>
+                <span data-testid="total-price">
                   ${totalPrice.toFixed(2)}
                 </span>
               </div>
