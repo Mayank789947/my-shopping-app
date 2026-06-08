@@ -17,7 +17,7 @@ vi.mock("react-router-dom", async () => {
 });
 
 function renderHeader(cart = []) {
-    render(
+    return render(
         <MemoryRouter>
             <CartContext.Provider value={{ cart }}>
                 <Header />
@@ -38,6 +38,19 @@ describe("Header component", () => {
         expect(screen.getByText("Home")).toBeInTheDocument();
         expect(screen.getByText("Products")).toBeInTheDocument();
         expect(screen.getByText("About")).toBeInTheDocument();
+    });
+
+    it("navigates home when logo is clicked", async () => {
+        const user = userEvent.setup();
+
+        renderHeader();
+
+        await user.click(
+            screen.getByText("Shoppers")
+        );
+
+        expect(mockNavigate)
+            .toHaveBeenCalledWith("/");
     });
 
     it("renders navigation links with correct routes", () => {
@@ -68,15 +81,16 @@ describe("Header component", () => {
         expect(mockNavigate).toHaveBeenCalledWith("/cartpage");
     });
 
-    it("shows cart count when cart has items", () => {
+    it("shows total quantity in cart badge", () => {
         renderHeader([
-            { id: 1 },
-            { id: 2 },
-            { id: 3 }
+            { id: 1, quantity: 2 },
+            { id: 2, quantity: 3 },
+            { id: 3, quantity: 1 },
         ]);
 
-        expect(screen.getByText("3"))
-            .toBeInTheDocument();
+        expect(
+            screen.getByTestId("cart-count")
+        ).toHaveTextContent("6");
     });
 
     it("does not show badge when cart is empty", () => {
@@ -99,5 +113,52 @@ describe("Header component", () => {
         expect(
             screen.getByRole("link", { name: "Home" })
         ).toBeVisible();
+    });
+
+    it("toggles menu button icon", async () => {
+        const user = userEvent.setup();
+
+        renderHeader();
+
+        const menuButton = screen.getByRole("button", {
+            name: "Toggle navigation menu",
+        });
+
+        expect(menuButton)
+            .toHaveTextContent("☰");
+
+        await user.click(menuButton);
+
+        expect(menuButton)
+            .toHaveTextContent("✕");
+
+        await user.click(menuButton);
+
+        expect(menuButton)
+            .toHaveTextContent("☰");
+    });
+
+    it("closes menu when navigation link is clicked", async () => {
+        const user = userEvent.setup();
+
+        renderHeader();
+
+        const menuButton = screen.getByRole("button", {
+            name: "Toggle navigation menu",
+        });
+
+        await user.click(menuButton);
+
+        expect(menuButton)
+            .toHaveTextContent("✕");
+
+        await user.click(
+            screen.getByRole("link", {
+                name: "Products",
+            })
+        );
+
+        expect(menuButton)
+            .toHaveTextContent("☰");
     });
 });
