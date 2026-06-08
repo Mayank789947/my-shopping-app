@@ -52,14 +52,20 @@ function Products() {
     return (
         <>
             <Header />
-            <div className={styles.productsGrid}>
-                {data && data.map((product) => (
-                    <Card
-                        key={product.id}
-                        product={product}
-                        onClick={() => handleClick(product.id)}
-                    />
-                ))}
+
+            <div className={styles.productsPage}>
+                <h1 className={styles.pageTitle}>
+                    Discover Products
+                </h1>
+                <div className={styles.productsGrid}>
+                    {data && data.map((product) => (
+                        <Card
+                            key={product.id}
+                            product={product}
+                            onClick={() => handleClick(product.id)}
+                        />
+                    ))}
+                </div>
             </div>
         </>
     )
