@@ -1,93 +1,196 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import Card from "./Card";
-import { CartContext } from "../../context/CartContext";
 import userEvent from "@testing-library/user-event";
 
+import Card from "./Card";
+import { CartContext } from "../../context/CartContext";
+
 const product = {
-    title: "Test Product",
-    price: 29.99,
-    image: "test.jpg",
-    category: "electronics",
-    rating: {
-        rate: 4.5,
-        count: 120,
-    },
-}
+  id: 1,
+  title: "Test Product",
+  price: 29.99,
+  image: "test.jpg",
+  category: "electronics",
+  rating: {
+    rate: 4.5,
+    count: 120,
+  },
+};
 
 describe("Card component", () => {
-    function renderCard(ui, addToCart = vi.fn()) {
-        render(
-            <CartContext.Provider
-                value={{ addToCart }}
-            >
-                {ui}
-            </CartContext.Provider>
-        );
+  function renderCard(
+    ui,
+    {
+      cart = [],
+      addToCart = vi.fn(),
+      incrementQuantity = vi.fn(),
+      decrementQuantity = vi.fn(),
+    } = {}
+  ) {
+    render(
+      <CartContext.Provider
+        value={{
+          cart,
+          addToCart,
+          incrementQuantity,
+          decrementQuantity,
+        }}
+      >
+        {ui}
+      </CartContext.Provider>
+    );
 
-        return { addToCart };
-    }
+    return {
+      addToCart,
+      incrementQuantity,
+      decrementQuantity,
+    };
+  }
 
-    it("renders product title and price", () => {
+  it("renders product title and price", () => {
+    renderCard(<Card product={product} />);
 
-        renderCard(<Card product={product} />)
+    expect(
+      screen.getByText("Test Product")
+    ).toBeInTheDocument();
 
-        expect(
-            screen.getByText("Test Product")
-        ).toBeInTheDocument();
+    expect(
+      screen.getByText("$29.99")
+    ).toBeInTheDocument();
+  });
 
-        expect(
-            screen.getByText("$29.99")
-        ).toBeInTheDocument();
+  it("renders product image", () => {
+    renderCard(<Card product={product} />);
+
+    const image = screen.getByRole("img", {
+      name: "Test Product",
     });
 
-    it("renders product image", () => {
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("src", "test.jpg");
+  });
 
-        renderCard(<Card product={product} />);
+  it("renders action buttons when item is not in cart", () => {
+    renderCard(<Card product={product} />);
 
-        const image = screen.getByRole("img", { name: "Test Product" });
+    expect(
+      screen.getByRole("button", { name: "View" })
+    ).toBeInTheDocument();
 
-        expect(image).toBeInTheDocument();
-        expect(image).toHaveAttribute("src", "test.jpg");
+    expect(
+      screen.getByRole("button", {
+        name: "Add To Cart",
+      })
+    ).toBeInTheDocument();
+  });
+
+  it("calls onClick when View button is clicked", async () => {
+    const user = userEvent.setup();
+    const mockOnClick = vi.fn();
+
+    renderCard(
+      <Card
+        product={product}
+        onClick={mockOnClick}
+      />
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "View",
+      })
+    );
+
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls addToCart when Add To Cart button is clicked", async () => {
+    const user = userEvent.setup();
+
+    const { addToCart } = renderCard(
+      <Card product={product} />
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Add To Cart",
+      })
+    );
+
+    expect(addToCart).toHaveBeenCalledTimes(1);
+    expect(addToCart).toHaveBeenCalledWith(product);
+  });
+
+  it("renders quantity controls when item is already in cart", () => {
+    renderCard(<Card product={product} />, {
+      cart: [
+        {
+          ...product,
+          quantity: 3,
+        },
+      ],
     });
 
-    it("renders action buttons", () => {
+    expect(
+      screen.getByText("3")
+    ).toBeInTheDocument();
 
-        renderCard(<Card product={product} />);
+    expect(
+      screen.queryByRole("button", {
+        name: "Add To Cart",
+      })
+    ).not.toBeInTheDocument();
+  });
 
-        expect(
-            screen.getByRole("button", { name: "View" })
-        ).toBeInTheDocument();
+  it("calls incrementQuantity when + button is clicked", async () => {
+    const user = userEvent.setup();
 
-        expect(
-            screen.getByRole("button", { name: "Add To Cart" })
-        ).toBeInTheDocument();
-    });
+    const { incrementQuantity } = renderCard(
+      <Card product={product} />,
+      {
+        cart: [
+          {
+            ...product,
+            quantity: 1,
+          },
+        ],
+      }
+    );
 
-    it("calls onClick when view button is clicked", async () => {
+    await user.click(
+      screen.getByRole("button", {
+        name: "+",
+      })
+    );
 
-        const mockOnClick = vi.fn();
-        const user = userEvent.setup();
+    expect(incrementQuantity).toHaveBeenCalledWith(
+      product.id
+    );
+  });
 
-        renderCard(<Card product={product} onClick={mockOnClick} />);
+  it("calls decrementQuantity when − button is clicked", async () => {
+    const user = userEvent.setup();
 
-        const viewBtn = screen.getByRole("button", { name: "View" });
+    const { decrementQuantity } = renderCard(
+      <Card product={product} />,
+      {
+        cart: [
+          {
+            ...product,
+            quantity: 1,
+          },
+        ],
+      }
+    );
 
-        await user.click(viewBtn);
+    await user.click(
+      screen.getByRole("button", {
+        name: "−",
+      })
+    );
 
-        expect(mockOnClick).toHaveBeenCalledTimes(1);
-    });
-
-    it("calls addToCart when Add to Cart button is clicked", async () => {
-        const user = userEvent.setup();
-        const mockAddToCart = vi.fn();
-
-        renderCard(<Card product={product} />, mockAddToCart);
-
-        const addToCartBtn = screen.getByRole("button", { name: "Add To Cart" });
-
-        await user.click(addToCartBtn);
-
-        expect(mockAddToCart).toHaveBeenCalledTimes(1);
-    });
+    expect(decrementQuantity).toHaveBeenCalledWith(
+      product.id
+    );
+  });
 });
