@@ -27,6 +27,8 @@ function Header() {
     setMenuOpen(false);
   }
 
+  const cartCount = cart.reduce((total, item) => total += item.quantity, 0);
+
   return (
     <header className={styles.header}>
       {/* Logo */}
@@ -48,9 +50,8 @@ function Header() {
 
       {/* Navigation */}
       <ul
-        className={`${styles.listContainer} ${
-          menuOpen ? styles.open : ""
-        }`}
+        className={`${styles.listContainer} ${menuOpen ? styles.open : ""
+          }`}
       >
         <li>
           <NavLink
@@ -100,12 +101,12 @@ function Header() {
           🛒
         </span>
 
-        {cart.length > 0 && (
+        {cartCount > 0 && (
           <span
             data-testid="cart-count"
             className={styles.cartBadge}
           >
-            {cart.length}
+            {cartCount}
           </span>
         )}
       </div>
