@@ -1,9 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
 
 const CartContext = createContext();
 
 function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
+    const [notification, setNotification] = useState(null);
+
+    const timeoutRef = useRef(null);
+
+    function showNotification(message, type = "success") {
+        setNotification({ message, type });
+
+        clearTimeout(timeoutRef.current);
+
+        timeoutRef.current = setTimeout(() => {
+            setNotification(null);
+        }, 2000);
+    }
 
     function addToCart(product) {
         setCart((prevCart) => {
@@ -15,9 +28,9 @@ function CartProvider({ children }) {
                 return prevCart.map((item) =>
                     item.id === product.id
                         ? {
-                              ...item,
-                              quantity: item.quantity + 1,
-                          }
+                            ...item,
+                            quantity: item.quantity + 1,
+                        }
                         : item
                 );
             }
@@ -30,22 +43,32 @@ function CartProvider({ children }) {
                 },
             ];
         });
+
+        showNotification(
+            `${product.title} added to cart`,
+            "success"
+        );
     }
 
-    function incrementQuantity(id) {
+    function incrementQuantity(id, title) {
         setCart((prevCart) =>
             prevCart.map((item) =>
                 item.id === id
                     ? {
-                          ...item,
-                          quantity: item.quantity + 1,
-                      }
+                        ...item,
+                        quantity: item.quantity + 1,
+                    }
                     : item
             )
         );
+
+        showNotification(
+            `${title} quantity updated`,
+            "info"
+        );
     }
 
-    function decrementQuantity(id) {
+    function decrementQuantity(id, title) {
         setCart((prevCart) =>
             prevCart.reduce((updatedCart, item) => {
                 if (item.id !== id) {
@@ -63,12 +86,23 @@ function CartProvider({ children }) {
                 return updatedCart;
             }, [])
         );
+
+        showNotification(
+            `${title} quantity updated`,
+            "info"
+        );
     }
 
-    function removeFromCart(id) {
+    function removeFromCart(id, title) {
         setCart((prevCart) =>
             prevCart.filter((item) => item.id !== id)
         );
+
+        showNotification(
+            `${title} removed from cart`,
+            "error"
+        );
+
     }
 
     return (
@@ -79,6 +113,7 @@ function CartProvider({ children }) {
                 incrementQuantity,
                 decrementQuantity,
                 removeFromCart,
+                notification
             }}
         >
             {children}
