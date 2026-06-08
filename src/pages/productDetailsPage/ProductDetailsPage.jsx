@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import styles from "/src/pages/productDetailsPage/ProductDetailsPage.module.css"
 import { useContext, useEffect, useState } from "react"
 import Loading from "../../components/loading/Loading"
@@ -9,13 +9,23 @@ import Header from "../../components/header/Header"
 function ProductDetailsPage() {
 
     const { id } = useParams()
-    const { cart, addToCart } = useContext(CartContext)
-
-    console.log(cart)
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState({})
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
+
+    const {
+        cart,
+        addToCart,
+        incrementQuantity,
+        decrementQuantity
+    } = useContext(CartContext);
+
+    const cartItem = cart.find(
+        (item) => item.id === product.id
+    );
+
 
     useEffect(() => {
         const fetchProductData = async () => {
@@ -52,6 +62,11 @@ function ProductDetailsPage() {
         )
     }
 
+    function handleBuyBtn(product) {
+        addToCart(product);
+        navigate(`/cartpage`);
+    }
+
     return (
         <>
             <Header />
@@ -74,14 +89,48 @@ function ProductDetailsPage() {
                         {product.description}
                     </p>
 
+
                     <div className={styles.btnContainer}>
-                        <button
-                            className={styles.cartBtn}
-                            onClick={() => addToCart(product)}
+                        {
+                            !cartItem ? (
+                                <button
+                                    className={styles.cartBtn}
+                                    onClick={() => addToCart(product)}
+                                >
+                                    Add To Cart
+                                </button>
+                            ) : (
+                                <div className={styles.quantityControls}>
+                                    <button
+                                        className={styles.quantityBtn}
+                                        onClick={() =>
+                                            decrementQuantity(product.id)
+                                        }
+                                    >
+                                        −
+                                    </button>
+
+                                    <span className={styles.quantity}>
+                                        {cartItem.quantity}
+                                    </span>
+
+                                    <button
+                                        className={styles.quantityBtn}
+                                        onClick={() =>
+                                            incrementQuantity(product.id)
+                                        }
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            )
+                        }
+                        <button 
+                          className={styles.buyBtn}
+                          onClick={() => handleBuyBtn(product)}
                         >
-                            Add To Cart
+                            Buy Now
                         </button>
-                        <button className={styles.buyBtn}>Buy Now</button>
                     </div>
                 </div>
             </div>
