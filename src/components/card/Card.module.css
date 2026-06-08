@@ -1,5 +1,5 @@
 .card {
-  width: 300px;
+  width: 100%;
   min-height: 440px;
 
   display: flex;
@@ -187,4 +187,22 @@
 
   box-shadow:
     0 8px 18px rgba(247, 232, 139, 0.35);
+}
+
+@media (max-width: 900px) {
+  .card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    width: 100%;
+  }
 }
