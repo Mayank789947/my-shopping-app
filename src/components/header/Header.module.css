@@ -1,33 +1,122 @@
+/* =========================
+   HEADER
+========================= */
+
 .header {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 2rem;
-    background-color: #565a74;
-    color: white;
-    margin: 1rem 5rem 0;
-    height: 60px;
+  position: relative;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  max-width: 1200px;
+  height: 70px;
+
+  margin: 1rem auto 0;
+  padding: 0 2rem;
+
+  border-radius: 60px;
+
+  background-color: #565a74;
+  color: white;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.15);
 }
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  transition: color 0.25s ease;
+}
+
+.logo:hover {
+  color: #f7e88b;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
 
 .listContainer {
-    display: flex;
-    justify-content: space-evenly;
-    list-style-type: none;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.orderContainer {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
+.listContainer li {
+  position: relative;
 }
 
-.btn {
-    background-color: #FFFBA5;
-    border-radius: 2rem;
-    border: none;
-    padding: 0.4rem 0.8rem;
+/* NavLink */
+
+.listContainer a {
+  position: relative;
+
+  text-decoration: none;
+  color: white;
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  transition: color 0.25s ease;
 }
+
+/* Animated underline */
+
+.listContainer a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -5px;
+
+  width: 100%;
+  height: 2px;
+
+  background-color: #f7e88b;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.3s ease;
+}
+
+.listContainer a:hover {
+  color: #f7e88b;
+}
+
+.listContainer a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Active NavLink */
+
+.activeLink {
+  color: #f7e88b !important;
+}
+
+.activeLink::after {
+  transform: scaleX(1) !important;
+}
+
+/* =========================
+   CART
+========================= */
 
 .cartContainer {
   position: relative;
@@ -42,11 +131,17 @@
 .cartIcon {
   font-size: 1.8rem;
 
-  transition: transform 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
 .cartContainer:hover .cartIcon {
-  transform: scale(1.08);
+  transform: scale(1.1);
+
+  filter: drop-shadow(
+    0 0 10px rgba(247, 232, 139, 0.35)
+  );
 }
 
 .cartBadge {
@@ -58,15 +153,15 @@
   min-width: 22px;
   height: 22px;
 
+  padding: 0 6px;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  padding: 0 6px;
-
   border-radius: 50%;
 
-  background: #f7e88b;
+  background-color: #f7e88b;
   color: #222;
 
   font-size: 0.75rem;
@@ -74,4 +169,112 @@
 
   box-shadow:
     0 4px 12px rgba(247, 232, 139, 0.35);
+}
+
+/* =========================
+   HAMBURGER BUTTON
+========================= */
+
+.menuButton {
+  display: none;
+
+  background: none;
+  border: none;
+
+  color: white;
+
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+/* =========================
+   TABLET & MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+  .header {
+    margin: 1rem;
+    padding: 0 1.25rem;
+  }
+
+  .menuButton {
+    display: block;
+    order: 2;
+  }
+
+  .cartContainer {
+    order: 1;
+  }
+
+  .listContainer {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    left: 0;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 1.5rem 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+
+    border-radius: 20px;
+
+    background-color: #565a74;
+
+    z-index: 1001;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    pointer-events: none;
+
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .open {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+
+    pointer-events: auto;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+  .header {
+    height: 65px;
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.15rem;
+  }
+
+  .cartIcon {
+    font-size: 1.6rem;
+  }
+
+  .menuButton {
+    font-size: 1.6rem;
+  }
 }
