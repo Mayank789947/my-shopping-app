@@ -5,6 +5,10 @@ import Home from '/src/pages/home/Home.jsx'
 import ProductDetailsPage from '/src/pages/productDetailsPage/ProductDetailsPage.jsx'
 import Products from '/src/pages/products/Products.jsx'
 import CartPage from './pages/cartPage/CartPage'
+import About from './pages/about/About'
+import { useContext } from 'react'
+import { CartContext } from './context/CartContext'
+import Notification from './components/notification/Notification'
 
 const router = createBrowserRouter([
   {
@@ -14,7 +18,7 @@ const router = createBrowserRouter([
   {
     path: "products",
     element: <Products />,
-  }, 
+  },
   {
     path: "products/:id",
     element: <ProductDetailsPage />
@@ -22,16 +26,25 @@ const router = createBrowserRouter([
   {
     path: "cartpage",
     element: <CartPage />,
-  }
+  },
+  {
+    path: "about",
+    element: <About />
+  },
 ])
+
 
 function App() {
 
+  const { notification } =
+    useContext(CartContext);
+
   return (
     <>
-     <RouterProvider router={router} />
+      <Notification notification={notification} />
+      <RouterProvider router={router} />
     </>
-     
+
   )
 }
 

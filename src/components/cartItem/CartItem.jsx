@@ -7,6 +7,7 @@ function CartItem({ item }) {
   const {
     addToCart,
     decrementQuantity,
+    incrementQuantity,
     removeFromCart,
   } = useContext(CartContext);
 
@@ -38,7 +39,10 @@ function CartItem({ item }) {
         <div className={styles.quantityControls}>
           <button
             className={styles.quantityBtn}
-            onClick={() => decrementQuantity(item.id)}
+            onClick={() => decrementQuantity(
+              item.id,
+              item.title
+            )}
           >
             -
           </button>
@@ -49,7 +53,10 @@ function CartItem({ item }) {
 
           <button
             className={styles.quantityBtn}
-            onClick={() => addToCart(item)}
+            onClick={() => incrementQuantity(
+              item.id,
+              item.title
+            )}
           >
             +
           </button>
@@ -58,7 +65,10 @@ function CartItem({ item }) {
 
       <button
         className={styles.deleteBtn}
-        onClick={() => removeFromCart(item.id)}
+        onClick={() => removeFromCart(
+          item.id,
+          item.title
+        )}
       >
         Delete
       </button>

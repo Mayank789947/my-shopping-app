@@ -43,9 +43,6 @@ function Card({ product, onClick }) {
           ${product.price}
         </span>
 
-        <span className={styles.oldPrice}>
-          $49.99
-        </span>
       </div>
 
       <div className={styles.btnContainer}>
@@ -69,7 +66,10 @@ function Card({ product, onClick }) {
               <button
                 className={styles.quantityBtn}
                 onClick={() =>
-                  decrementQuantity(product.id)
+                  decrementQuantity(
+                    product.id,
+                    product.title
+                  )
                 }
               >
                 −
@@ -82,7 +82,10 @@ function Card({ product, onClick }) {
               <button
                 className={styles.quantityBtn}
                 onClick={() =>
-                  incrementQuantity(product.id)
+                  incrementQuantity(
+                    product.id,
+                    product.title
+                  )
                 }
               >
                 +
