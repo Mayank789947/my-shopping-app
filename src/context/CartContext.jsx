@@ -1,57 +1,89 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
-const CartContext = createContext()
+const CartContext = createContext();
 
 function CartProvider({ children }) {
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState([]);
 
     function addToCart(product) {
-        console.log("Added to cart successfully", product)
-
         setCart((prevCart) => {
-            const existingItem = prevCart.find(
+            const itemExists = prevCart.some(
                 (item) => item.id === product.id
             );
 
-            if (existingItem) {
+            if (itemExists) {
                 return prevCart.map((item) =>
                     item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
+                        ? {
+                              ...item,
+                              quantity: item.quantity + 1,
+                          }
                         : item
                 );
-            } else {
-                return [...prevCart, { ...product, quantity: 1 }];
             }
+
+            return [
+                ...prevCart,
+                {
+                    ...product,
+                    quantity: 1,
+                },
+            ];
         });
+    }
+
+    function incrementQuantity(id) {
+        setCart((prevCart) =>
+            prevCart.map((item) =>
+                item.id === id
+                    ? {
+                          ...item,
+                          quantity: item.quantity + 1,
+                      }
+                    : item
+            )
+        );
     }
 
     function decrementQuantity(id) {
-        setCart((prevCart) => {
-            const existingItem = prevCart.find((item) => item.id === id);
+        setCart((prevCart) =>
+            prevCart.reduce((updatedCart, item) => {
+                if (item.id !== id) {
+                    updatedCart.push(item);
+                    return updatedCart;
+                }
 
-            if (!existingItem) return prevCart;
+                if (item.quantity > 1) {
+                    updatedCart.push({
+                        ...item,
+                        quantity: item.quantity - 1,
+                    });
+                }
 
-            if (existingItem.quantity === 1) {
-                return prevCart.filter((item) => item.id !== id);
-            }
-
-            return prevCart.map((item) =>
-                item.id === id
-                    ? { ...item, quantity: item.quantity - 1 }
-                    : item
-            );
-        });
+                return updatedCart;
+            }, [])
+        );
     }
 
     function removeFromCart(id) {
-        setCart((prevCart) => prevCart.filter(item => item.id !== id))
+        setCart((prevCart) =>
+            prevCart.filter((item) => item.id !== id)
+        );
     }
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, decrementQuantity, removeFromCart }}>
+        <CartContext.Provider
+            value={{
+                cart,
+                addToCart,
+                incrementQuantity,
+                decrementQuantity,
+                removeFromCart,
+            }}
+        >
             {children}
         </CartContext.Provider>
-    )
+    );
 }
 
-export { CartContext, CartProvider }
+export { CartContext, CartProvider };
