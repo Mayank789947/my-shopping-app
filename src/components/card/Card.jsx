@@ -3,7 +3,17 @@ import styles from "./Card.module.css";
 import { CartContext } from "../../context/CartContext";
 
 function Card({ product, onClick }) {
-  const { addToCart } = useContext(CartContext);
+
+  const {
+    cart,
+    addToCart,
+    incrementQuantity,
+    decrementQuantity
+  } = useContext(CartContext);
+
+  const cartItem = cart.find(
+    (item) => item.id === product.id
+  );
 
   return (
     <article className={styles.card}>
@@ -46,12 +56,40 @@ function Card({ product, onClick }) {
           View
         </button>
 
-        <button
-          className={styles.cartBtn}
-          onClick={() => addToCart(product)}
-        >
-          Add To Cart
-        </button>
+        {
+          !cartItem ? (
+            <button
+              className={styles.cartBtn}
+              onClick={() => addToCart(product)}
+            >
+              Add To Cart
+            </button>
+          ) : (
+            <div className={styles.quantityControls}>
+              <button
+                className={styles.quantityBtn}
+                onClick={() =>
+                  decrementQuantity(product.id)
+                }
+              >
+                −
+              </button>
+
+              <span className={styles.quantity}>
+                {cartItem.quantity}
+              </span>
+
+              <button
+                className={styles.quantityBtn}
+                onClick={() =>
+                  incrementQuantity(product.id)
+                }
+              >
+                +
+              </button>
+            </div>
+          )
+        }
       </div>
     </article>
   );
