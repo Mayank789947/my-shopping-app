@@ -9,6 +9,8 @@ import About from './pages/about/About'
 import { useContext } from 'react'
 import { CartContext } from './context/CartContext'
 import Notification from './components/notification/Notification'
+import SuccessPage from './pages/success/SuccessPage'
+import CheckoutPage from './pages/checkout/CheckoutPage'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "about",
     element: <About />
+  },
+  {
+    path: "/success",
+    element: <SuccessPage />,
+  },
+  {
+    path: "/checkout",
+    element: <CheckoutPage />,
   },
 ])
 
