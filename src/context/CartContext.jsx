@@ -105,6 +105,10 @@ function CartProvider({ children }) {
 
     }
 
+    function clearCart() {
+        setCart([]);
+    }
+
     return (
         <CartContext.Provider
             value={{
@@ -113,7 +117,8 @@ function CartProvider({ children }) {
                 incrementQuantity,
                 decrementQuantity,
                 removeFromCart,
-                notification
+                notification,
+                clearCart
             }}
         >
             {children}
