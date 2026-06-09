@@ -5,9 +5,11 @@ import Header from "../../components/header/Header";
 import CartItem from "../../components/cartItem/CartItem";
 
 import { CartContext } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
   const { cart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const totalPrice = cart.reduce(
     (prev, curr) => prev + curr.price * curr.quantity,
@@ -18,6 +20,10 @@ function CartPage() {
     (prev, curr) => prev + curr.quantity,
     0
   );
+
+  function handleCheckout() {
+    navigate("/checkout");
+  }
 
   return (
     <>
@@ -63,8 +69,11 @@ function CartPage() {
                 </span>
               </div>
 
-              <button className={styles.checkoutBtn}>
-                Checkout
+              <button 
+                className={styles.checkoutBtn}
+                onClick={handleCheckout}
+              >
+                Proceed To Checkout
               </button>
             </div>
           </div>
