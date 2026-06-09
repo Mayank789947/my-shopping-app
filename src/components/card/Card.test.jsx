@@ -70,11 +70,29 @@ describe("Card component", () => {
     expect(image).toHaveAttribute("src", "test.jpg");
   });
 
+  it("renders category and rating information", () => {
+    renderCard(<Card product={product} />);
+
+    expect(
+      screen.getByText("electronics")
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/4\.5/)
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/\(120\)/)
+    ).toBeInTheDocument();
+  });
+
   it("renders action buttons when item is not in cart", () => {
     renderCard(<Card product={product} />);
 
     expect(
-      screen.getByRole("button", { name: "View" })
+      screen.getByRole("button", {
+        name: "View",
+      })
     ).toBeInTheDocument();
 
     expect(
@@ -118,7 +136,10 @@ describe("Card component", () => {
     );
 
     expect(addToCart).toHaveBeenCalledTimes(1);
-    expect(addToCart).toHaveBeenCalledWith(product);
+
+    expect(addToCart).toHaveBeenCalledWith(
+      product
+    );
   });
 
   it("renders quantity controls when item is already in cart", () => {
@@ -132,7 +153,15 @@ describe("Card component", () => {
     });
 
     expect(
-      screen.getByText("3")
+      screen.getByRole("button", {
+        name: "+",
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("button", {
+        name: "−",
+      })
     ).toBeInTheDocument();
 
     expect(
@@ -140,6 +169,10 @@ describe("Card component", () => {
         name: "Add To Cart",
       })
     ).not.toBeInTheDocument();
+
+    expect(
+      screen.getByText("3")
+    ).toBeInTheDocument();
   });
 
   it("calls incrementQuantity when + button is clicked", async () => {
@@ -163,8 +196,15 @@ describe("Card component", () => {
       })
     );
 
-    expect(incrementQuantity).toHaveBeenCalledWith(
-      product.id
+    expect(
+      incrementQuantity
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      incrementQuantity
+    ).toHaveBeenCalledWith(
+      product.id,
+      product.title
     );
   });
 
@@ -189,8 +229,15 @@ describe("Card component", () => {
       })
     );
 
-    expect(decrementQuantity).toHaveBeenCalledWith(
-      product.id
+    expect(
+      decrementQuantity
+    ).toHaveBeenCalledTimes(1);
+
+    expect(
+      decrementQuantity
+    ).toHaveBeenCalledWith(
+      product.id,
+      product.title
     );
   });
 });
